@@ -22,14 +22,12 @@ const RegisterFormContributor = lazy(() => import('./components/auth/RegisterFor
 const RegisterFormUser = lazy(() => import('./components/auth/RegisterFormUser'))
 const Material = lazy(() => import('./components/auth/Material'))
 const MaterialForm = lazy(() => import('./components/auth/MaterialForm'))
-// const DataserMeta = lazy(() => import('./components/auth/DataserMeta'))
 
 const loading = (
   <div className="pt-3 text-center">
     <div className="sk-spinner sk-spinner-pulse"></div>
   </div>
 )
-
 
 function withRouter(Component) {
   return ( props ) => {
@@ -38,6 +36,7 @@ function withRouter(Component) {
     const params = useParams();
     return <Component { ...props } navigate={ navigate } location={ location } params={params} />;
   }
+
 }
 
 class App extends Component {
@@ -64,7 +63,6 @@ class App extends Component {
             <Route path='/register/user' element={<RegisterFormUser/>} />
             <Route path='/material' element={<Material/>} />
             <Route path='/material/form' element={<MaterialForm/>} />
-            {/* <Route path='/material/form' element={<MaterialForm/>} /> */}
             <Route path="*" name="Home" element={
               <UnAuthenticatedRoute redirectTo="/login">
                 <DefaultLayout />

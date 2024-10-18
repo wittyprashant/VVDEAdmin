@@ -92,7 +92,7 @@ class RoleList extends Component {
                     }
                     await this.delay(1000);
                     this.props.onRoleList(param)
-                    swal("Your Details  has been deleted!", {
+                    swal("Your Details has been deleted!", {
                         icon: "success",
                     });
                 } else {

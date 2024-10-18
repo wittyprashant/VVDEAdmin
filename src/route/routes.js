@@ -47,6 +47,7 @@ const CategoryAddEdit = React.lazy(() => import('../containers/Category/addEdit'
 
 const User = React.lazy(() => import('../containers/User'))
 const UserAddEdit = React.lazy(() => import('../containers/User/addEdit'))
+const UserGetDetail = React.lazy(() => import('../containers/User/addEdit'))
 
 const BillingInfo = React.lazy(() => import('../containers/BillingInfo'))
 
@@ -120,7 +121,7 @@ const routes = [
 
   { path: '/users', name: 'User', element: User, exact: true },
   { path: '/users/add', name: 'User Add', element: UserAddEdit, exact: true },
-  { path: '/users/edit/:userId', name: 'User Edit', element: UserAddEdit },
+  { path: '/users/edit/:id', name: 'User Edit', element: UserGetDetail },
 ]
 
 export default routes

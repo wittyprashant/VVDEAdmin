@@ -7,7 +7,7 @@ import Sidebar from '../../components/partials/Sidebar'
 const DefaultLayout = () => {
   return (
     <div>
-        <Sidebar />
+      <Sidebar />
       <div className="wrapper d-flex flex-column min-vh-100 bg-light">
         <Header />
         <div className="body flex-grow-1 px-3">

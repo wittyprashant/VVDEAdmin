@@ -1,42 +1,3 @@
-/* eslint-disable no-restricted-globals */
-/* eslint-disable no-undef */
-// import image from '../../assets/Images/sidebar-img.png';
-// import { LabelMain } from "../front-end/Header";
-// import { Color } from "../../const/const";
-// import { TextInputt } from "../front-end/Textinput.js";
-// import { TextButton } from "../front-end/Button.js";
-
-// export default function Logout()
-// {  
-//     return(
-//         <div class='text-flex'>
-//             <div class="sidebar-image">
-//             <img src={image}  class='img'/>
-//             </div>
-//             <div class='gradient-linear'>
-//                 <LabelMain title={'ICoMEC'}  fontSize={35}   textAlign={'center'} marginTop={220}  color={Color.hdh}/>
-//                 <LabelMain title='Indain Construction Materials Embodied Carbon Data Base' fontSize={18} textAlign={'center'}  color={Color.hdh}/>
-//                 <LabelMain title={'Name'} color={Color.hdh}/>
-//                 <TextInputt border={0} borderRadius={5} width={400} height={40} inputpadding={15}paddingRight={15} placeholder={'Enter Name'}  />
-//                 <LabelMain title={'Email ID'} color={Color.hdh}  marginTop={20}/>
-//                 <TextInputt border={0} borderRadius={5} width={400} height={40} inputpadding={15}paddingRight={15} placeholder={'Enter Email ID'}  />
-//                 <LabelMain title={'Password'} color={Color.hdh} marginTop={20}/>
-//                 <TextInputt border={0} borderRadius={5} width={400} height={40} inputpadding={15} paddingRight={15} placeholder={'Enter Password'} />
-//                 <LabelMain title={'Re-enter Password'} color={Color.hdh} marginTop={20}/>
-//                 <TextInputt border={0} borderRadius={5} width={400} height={40} inputpadding={15} paddingRight={15} placeholder={'Enter Re-enter Password'} />
-//                 <TextButton title={'Sign Up'} backgroundColor={Color.hdh} marginTop={40} margintop={3} borderRadius={10} border={0} width={170} height={35} marginLeft={'auto'} marginRight={'auto'} display={'block'} color={Color.darkpink} />
-          
-//                 <div class='text-acc'>
-//                 <LabelMain title={'Have an account? '} color={Color.hdh}  marginRight={10}  display={'block'} />
-//                 <a href="" class='text-forgot'>Log in</a>
-//                 </div>
-//                 <LabelMain title={'CARBSE'}  fontSize={40} textAlign={'center'} marginTop={70} color={Color.hdh} />
-//                 <LabelMain title='Center for Advanced Research in Building Science Energy' fontSize={14} textAlign={'center'} color={Color.hdh}/>
-//             </div>
-//         </div>
-//     );
-// }
-
 import image from "../../assets/Images/sidebar-img.png";
 import { LabelMain } from "../front-end/Header";
 import { Color } from "../../const/const";
@@ -157,64 +118,24 @@ class ContributorRegister extends Component {
   };
   componentDidMount() {
     this.getSampleMaster();
-}
-  getSampleMaster = () => {
-    // alert('hii2');
-    let tag = "Group";
-      let url = endPoint.category;
-      console.log( "url", url);
-     
-
-      return CallAPICommonDML(
-          url,
-          "GET",
-          {
-             
-          },
-          tag
-      ).then((res) => {
-        this.setState({ categories_list: res.data.result });
-          // setgroupdatalist(res.data.result)
-          console.log(tag+" Success -----------------",res.data.result);
-          return res;
-      });
   }
-//   componentDidMount() {
-//     this.fetchData();
-// }
-
-// fetchData = async () => {
-//   alert('hello')
-//   try {
-//     const response = await axios.get('http://192.168.1.34/data_entry_software/public/api/categories');
-//     this.setState({ categories_list: response.data.result });
-//   } catch (error) {
-//     console.error("Error fetching data:", error);
-//   }
-// }
-  // handleSubmit = (event) => {
-  //   event.preventDefault()
-  //   const form = event.currentTarget
-  //   if (form.checkValidity() === false) {
-  //     event.stopPropagation();
-  //   }
-  //   if(form.checkValidity() === true){
-  //     this.props.onRegisterContributor(
-  //         this.state.role,
-  //         this.state.name,
-  //         this.state.email,
-  //         this.state.password,
-  //         this.state.confirm_password,
-  //         this.state.category_id,
-  //         this.state.affiliation, 
-  //         this.state.corresponding_author, 
-  //         this.state.publication_reviewed, 
-  //         this.state.publication_title,
-  //         this.state.publication_weblink
-  //       )
-  //     // this.props.onRegister(this.state.role, this.state.name, this.state.email, this.state.password, this.state.confirm_password, this.state.category_id, this.state.affiliation, this.state.corresponding_author, this.state.confirm_password, this.state.publication_reviewed, this.state.publication_title,this.state.publication_weblink)
-  //   }
-  // };
+  getSampleMaster = () => {
+    let tag = "Group";
+    let url = endPoint.category;
+    return CallAPICommonDML(
+        url,
+        "GET",
+        {
+            
+        },
+        tag
+    ).then((res) => {
+      this.setState({ categories_list: res.data.result });
+        // setgroupdatalist(res.data.result)
+        console.log(tag+" Success -----------------",res.data.result);
+        return res;
+    });
+  }
 
   handleChange = (event) => {
     this.setState({

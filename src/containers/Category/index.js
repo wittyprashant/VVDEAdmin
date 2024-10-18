@@ -9,6 +9,7 @@ import {
     CCol,
     CTooltip
 } from '@coreui/react';
+
 import DataTable from "react-data-table-component";
 import Moment, { months } from 'moment';
 import swal from 'sweetalert';
@@ -16,7 +17,6 @@ import * as actions from '../../store/actions'
 import { NavLink } from 'react-router-dom';
 import { cilPen, cilPlus, cilTrash } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
@@ -26,23 +26,11 @@ class Category extends Component {
         filterText: "",
         resetPaginationToggle: false,
         columnCategory: [
-            // {
-            //     name: 'Title',
-            //     sortable: true,
-            //     selector: row => `${row.title}`,
-            //     width: "300px",
-            // },
-            // {
-            //     name: 'Due Date',
-            //     selector: row => `${row.dueDate}`,
-            //     sortable: true,
-            //     width: "150px",
-            // },
             {
                 name: 'Category',
                 selector: row => 'Material Manufacturer',
                 sortable: true,
-                width: "300px",
+                width: "300px"
             },
             {
                 name: 'Date',
@@ -89,22 +77,22 @@ class Category extends Component {
             buttons: true,
             dangerMode: true,
         }).then(async (willDelete) => {
-                if (willDelete) {
-                    this.props.onCategoryDelete(id, "")
-                    const token = this.props.token
-                    const param = {
-                        order: 6,
-                        page: 1
-                    }
-                    await this.delay(1000)
-                    this.props.onCategoryList(param, token)
-                    swal("Your Details  has been deleted!", {
-                        icon: "success",
-                    });
-                } else {
-                    swal("Your details are Safe");
+            if (willDelete) {
+                this.props.onCategoryDelete(id, "")
+                const token = this.props.token
+                const param = {
+                    order: 6,
+                    page: 1
                 }
-            });
+                await this.delay(1000)
+                this.props.onCategoryList(param, token)
+                swal("Your Details  has been deleted!", {
+                    icon: "success",
+                });
+            } else {
+                swal("Your details are Safe");
+            }
+        });
     }
 
     getSubHeaderComponent = () => {

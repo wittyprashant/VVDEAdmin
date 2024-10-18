@@ -12,7 +12,6 @@ import {
 import DataTable from "react-data-table-component";
 import Moment from 'moment';
 import swal from 'sweetalert';
-
 import * as actions from '../../store/actions'
 import { NavLink } from 'react-router-dom';
 import { cilPen, cilPlus, cilTrash } from '@coreui/icons';
@@ -25,43 +24,37 @@ class User extends Component {
         resetPaginationToggle: false,
         columnUser: [
             {
+                name: 'Sr.',
+                selector: (row, index) => index + 1,
+                sortable: true,
+                width: "100px",
+            },
+            {
                 name: 'Role',
-                selector: row => 'Contributor',
+                selector: row => row.role_name,
                 sortable: true,
                 width: "200px",
             },
             {
                 name: 'Name',
-                selector: row => 'User',
-                sortable: true,
-                width: "200px",
-            },
-            // {
-            //     name: 'First Name',
-            //     selector: row => 'First Name',
-            //     sortable: true,
-            //     width: "200px",
-            // },
-            // {
-            //     name: 'Last Name',
-            //     selector: row => 'Last Name',
-            //     sortable: true,
-            //     width: "200px",
-            // },
-            {
-                name: 'Username',
-                selector: row => 'Username',
+                selector: row => row.name,
                 sortable: true,
                 width: "200px",
             },
             {
-                name: 'Date',
-                selector: row => `${row.createOn}`,
+                name: 'Email',
+                selector: row => row.email,
+                sortable: true,
+                width: "200px",
+            },
+            {
+                name: 'Created At',
+                selector: row => `${row.created_at}`,
                 sortable: true,
                 width: "200px",
                 cell: row => {
                     return (
-                        <span>{Moment(row.createOn).format('DD-MM-YYYY')}</span>
+                        <span>{Moment(row.created_at).format('DD-MM-YYYY')}</span>
                     )
                 }
             },
@@ -72,8 +65,8 @@ class User extends Component {
                 cell: row => {
                     return (
                         <div>
-                            <CTooltip content="Edit User"><NavLink to={`/users/edit/${row.userId}`} onClick={(e) => {  }} className="edit-btn"><CIcon size={'sm'} icon={cilPen} /></NavLink></CTooltip>
-                            <CTooltip content="Delete User"><button type="button" onClick={(e) => { this.deleteUser(row.userId) }} className="delete-btn"><CIcon size={'sm'} icon={cilTrash} /></button></CTooltip>
+                            <CTooltip content="Edit User"><NavLink to={`/users/edit/${row.id}`} className="edit-btn"><CIcon size={'sm'} icon={cilPen} /></NavLink></CTooltip>
+                            <CTooltip content="Delete User"><button type="button" onClick={(e) => { this.deleteUser(row.id) }} className="delete-btn"><CIcon size={'sm'} icon={cilTrash} /></button></CTooltip>
                         </div>
                     )
                 }
@@ -92,29 +85,33 @@ class User extends Component {
 
     deleteUser(id) {
         swal({
-            title: "Are you sure?",
-            text: "Once deleted, you will not be able to recover this Details!",
+            title: "Are you sure you want to delete these details?",
             icon: "warning",
             buttons: true,
             dangerMode: true,
         })
-            .then(async (willDelete) => {
-                if (willDelete) {
-                    this.props.onUserDelete(id, "")
-                    const token = this.props.token
-                    const param = {
-                        order: 6,
-                        page: 1
-                    }
-                    await this.delay(1000)
-                    this.props.onUserList(param, token)
-                    swal("Your Details  has been deleted!", {
-                        icon: "success",
-                    });
-                } else {
-                    swal("Your details are Safe");
+        .then(async (willDelete) => {
+            if (willDelete) {
+                this.props.onUserDelete(id, id)
+                const token = this.props.token
+                const param = {
+                    order: 6,
+                    page: 1
                 }
-            });
+                await this.delay(1000)
+                this.props.onUserList(param, token)
+                swal({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success",
+                });
+            } else {
+                swal({
+                    title: "Your details have been saved safely!",
+                    icon: "success",
+                });
+            }
+        });
     }
 
     getSubHeaderComponent = () => {
@@ -184,7 +181,8 @@ const mapDispatchToProp = dispatch => {
     return {
         onUserList: (param) => dispatch(actions.userList(param)),
         onUserListFilter: (filterText) => dispatch(actions.userListFilter(filterText)),
-        onUserDelete: (id, token) => dispatch(actions.userDelete(id, token))
+        onUserDelete: (id, token) => dispatch(actions.userDelete(id, token)),
+        OnUserDetail: (id, token) => dispatch(actions.getUserDetail(id, token))
     }
 }
 

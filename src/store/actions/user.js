@@ -66,12 +66,14 @@ const userDetail = (data,error,redirectTo) => {
 export const userList = (param) => {
     return dispatch => {        
         dispatch(userListStart());
-        axios.get('SuperAdmin/geallfundingdetails?ordering='+param.order)
+        // axios.get('SuperAdmin/geallfundingdetails?ordering='+param.order)
+        axios.get('http://localhost/VVDEBackend/public/api/users')
         .then((response) => {
+            console.log(response);
             if(response.data.status){
                 const data = response.data.result
                 const msg = response.data.message 
-                dispatch(userListSuccess(msg,[{}],param.page));
+                dispatch(userListSuccess(msg,response.data.result,param.page));
             }else{
                 dispatch(userListFail(response.data.message))
             }            
@@ -82,33 +84,45 @@ export const userList = (param) => {
     }
 }
 
-
-
 export const userDelete = (id) => {
-    return dispatch => {        
-        axios.delete('SuperAdmin/deletefunding?fundingid='+id)
+    return dispatch => {
+        axios.post(`http://localhost/VVDEBackend/public/api/user/delete/${id}`)
         .then((response) => {
-            if(response.data.status){
+            if(response.data.success) {
                 dispatch(userDeleteAction(id));
-            }           
+            } else {
+                console.error('Deletion failed:', response.data.message);
+            }
         })
+        .catch((error) => {
+            console.error('Error occurred while deleting user:', error);
+        });
     }
 }
 
+// export const userDelete = (id) => {
+//     return dispatch => {        
+//         axios.delete('/user/delete/'+id)
+//         .then((response) => {
+//             if(response.data.status){
+//                 dispatch(userDeleteAction(id));
+//             }           
+//         })
+//     }
+// }
+
 export const getUserDetail = (id) => {
     return dispatch => {        
-        axios.get('SuperAdmin/geallfundingdetailsById?id='+id)
+        axios.get('http://localhost/VVDEBackend/public/api/user/details?id='+id)
         .then((response) => {
             if(response.data.result){
                 try{
                     let dt=Moment(response.data.result.dueDate)._d
                     if(dt === "Invalid Date"){
                         response.data.result.dueDate=new Date();
-                        // console.log("Try",response.data.result)
                     }
                 }catch(e){
                     response.data.result.dueDate=new Date();
-                    // console.log("Catch",response.data.result.dueDate)
                 }
                 dispatch(userDetail(response.data.result,"",null));
             }else{
@@ -129,7 +143,7 @@ const userfilterList = (text) => {
 export const userAddEdit = (param) => {
     return dispatch => {        
         dispatch(userAddEditStart());
-        axios.post('SuperAdmin/addupdatefunding',param)
+        axios.post('http://localhost/VVDEBackend/public/api/register', param)
         .then((response) => {
             if(response.data.status){
                 const data = response.data.result
@@ -137,6 +151,7 @@ export const userAddEdit = (param) => {
                 dispatch(userAddEditSuccess(msg,data));
             }else{
                 dispatch(userAddEditFail(response.data.message))
+                dispatch()
             }            
         })
         .catch((error) => {
@@ -147,7 +162,7 @@ export const userAddEdit = (param) => {
 
 export const getUserList = () => {
     return dispatch => {        
-        axios.get('FundingResources/gefundingcategory')
+        axios.get('http://localhost/VVDEBackend/public/api/users')
         .then((response) => {
             if(response.data.result){
                 dispatch(userList(response.data.result,""));
